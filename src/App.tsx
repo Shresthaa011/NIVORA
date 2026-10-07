@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { HeaderBanner } from './components/HeaderBanner';
 import { Navbar } from './components/Navbar';
 import { HeroSection } from './components/HeroSection';
@@ -14,16 +15,60 @@ import { SearchModal } from './components/SearchModal';
 import { StationModal } from './components/StationModal';
 import { RecordModal } from './components/RecordModal';
 
+import { RepositoryLandingPage } from './pages/RepositoryLandingPage';
+import { ReportRepositoryPage } from './pages/ReportRepositoryPage';
+import { DatasetRepositoryPage } from './pages/DatasetRepositoryPage';
+import { PublicationRepositoryPage } from './pages/PublicationRepositoryPage';
+import { MediaRepositoryPage } from './pages/MediaRepositoryPage';
+import { ActivityRepositoryPage } from './pages/ActivityRepositoryPage';
+import { RepositoryDetailPage } from './pages/RepositoryDetailPage';
+import { UploadDashboardPage } from './pages/UploadDashboardPage';
+import { ReviewDashboardPage } from './pages/ReviewDashboardPage';
+
 import type { Station, ResearchItem, ScienceStory } from './types/polar';
+
+function HomePage({
+  onHeroSearchSubmit,
+  onOpenSearch,
+  onScrollToSection,
+  setSelectedStation,
+  setActiveRecordModal,
+}: {
+  onHeroSearchSubmit: (q: string) => void;
+  onOpenSearch: () => void;
+  onScrollToSection: (id: string) => void;
+  setSelectedStation: (st: Station | null) => void;
+  setActiveRecordModal: (val: { type: string; data: any } | null) => void;
+}) {
+  return (
+    <>
+      <HeroSection
+        onSearchSubmit={onHeroSearchSubmit}
+        onOpenSearch={onOpenSearch}
+      />
+      <QuickExploreSection onCardClick={onScrollToSection} />
+      <PolarMapSection onSelectStation={(st) => setSelectedStation(st)} />
+      <FeaturedResearchSection
+        onSelectResearch={(res: ResearchItem) => setActiveRecordModal({ type: 'Publication / Research', data: res })}
+      />
+      <AskPolarAISection />
+      <ScienceStoriesSection
+        onSelectStory={(story: ScienceStory) => setActiveRecordModal({ type: story.type, data: story })}
+      />
+      <LatestKnowledgeSection
+        onViewRecord={(type, record) => setActiveRecordModal({ type, data: record })}
+      />
+    </>
+  );
+}
 
 export function App() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchInitialQuery, setSearchInitialQuery] = useState('');
-  
+
   const [selectedStation, setSelectedStation] = useState<Station | null>(null);
   const [activeRecordModal, setActiveRecordModal] = useState<{ type: string; data: any } | null>(null);
 
-  // Keyboard shortcut for Ctrl+K / Cmd+K search
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
@@ -56,68 +101,66 @@ export function App() {
   };
 
   return (
-    <div className="app-main-wrapper">
-      {/* 1. Government Institutional Top Bar */}
-      <HeaderBanner />
+    <BrowserRouter>
+      <div className="app-main-wrapper flex flex-col min-h-screen">
+        <HeaderBanner />
+        <Navbar
+          onOpenSearch={() => setIsSearchOpen(true)}
+          onScrollToSection={handleScrollToSection}
+        />
 
-      {/* 2. Sticky Navbar */}
-      <Navbar
-        onOpenSearch={() => setIsSearchOpen(true)}
-        onScrollToSection={handleScrollToSection}
-      />
+        <main className="flex-1">
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <HomePage
+                  onHeroSearchSubmit={handleHeroSearchSubmit}
+                  onOpenSearch={() => setIsSearchOpen(true)}
+                  onScrollToSection={handleScrollToSection}
+                  setSelectedStation={setSelectedStation}
+                  setActiveRecordModal={setActiveRecordModal}
+                />
+              }
+            />
 
-      {/* 3. Hero Section */}
-      <HeroSection
-        onSearchSubmit={handleHeroSearchSubmit}
-        onOpenSearch={() => setIsSearchOpen(true)}
-      />
+            {/* Scientific Knowledge Repository Routes */}
+            <Route path="/repository" element={<RepositoryLandingPage />} />
+            <Route path="/repository/reports" element={<ReportRepositoryPage />} />
+            <Route path="/repository/datasets" element={<DatasetRepositoryPage />} />
+            <Route path="/repository/publications" element={<PublicationRepositoryPage />} />
+            <Route path="/repository/media" element={<MediaRepositoryPage />} />
+            <Route path="/repository/activities" element={<ActivityRepositoryPage />} />
+            <Route path="/repository/detail/:type/:id" element={<RepositoryDetailPage />} />
 
-      {/* 4. Quick Explore Feature Cards Section */}
-      <QuickExploreSection onCardClick={handleScrollToSection} />
+            {/* Admin / Upload & Review Routes */}
+            <Route path="/admin/repository/upload" element={<UploadDashboardPage />} />
+            <Route path="/admin/repository/review" element={<ReviewDashboardPage />} />
+          </Routes>
+        </main>
 
-      {/* 5. Interactive Polar World Map Section */}
-      <PolarMapSection onSelectStation={(st) => setSelectedStation(st)} />
+        <Footer />
 
-      {/* 6. Featured Research Section */}
-      <FeaturedResearchSection
-        onSelectResearch={(res: ResearchItem) => setActiveRecordModal({ type: 'Publication / Research', data: res })}
-      />
+        {/* Modals */}
+        <SearchModal
+          isOpen={isSearchOpen}
+          onClose={() => setIsSearchOpen(false)}
+          initialQuery={searchInitialQuery}
+          onSelectResult={handleSelectSearchResult}
+        />
 
-      {/* 7. Ask Polar AI Section (Grounded RAG Placeholder) */}
-      <AskPolarAISection />
+        <StationModal
+          station={selectedStation}
+          onClose={() => setSelectedStation(null)}
+        />
 
-      {/* 8. Science Stories Dissemination Section */}
-      <ScienceStoriesSection
-        onSelectStory={(story: ScienceStory) => setActiveRecordModal({ type: story.type, data: story })}
-      />
-
-      {/* 9. Latest Knowledge Repository Tabs */}
-      <LatestKnowledgeSection
-        onViewRecord={(type, record) => setActiveRecordModal({ type, data: record })}
-      />
-
-      {/* 10. Institutional Footer */}
-      <Footer />
-
-      {/* Overlays and Modals */}
-      <SearchModal
-        isOpen={isSearchOpen}
-        onClose={() => setIsSearchOpen(false)}
-        initialQuery={searchInitialQuery}
-        onSelectResult={handleSelectSearchResult}
-      />
-
-      <StationModal
-        station={selectedStation}
-        onClose={() => setSelectedStation(null)}
-      />
-
-      <RecordModal
-        type={activeRecordModal?.type || null}
-        record={activeRecordModal?.data || null}
-        onClose={() => setActiveRecordModal(null)}
-      />
-    </div>
+        <RecordModal
+          type={activeRecordModal?.type || null}
+          record={activeRecordModal?.data || null}
+          onClose={() => setActiveRecordModal(null)}
+        />
+      </div>
+    </BrowserRouter>
   );
 }
 

@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { Compass, Search, Sparkles, User, Menu, X } from 'lucide-react';
+
 
 interface NavbarProps {
   onOpenSearch: () => void;
@@ -7,29 +9,35 @@ interface NavbarProps {
 }
 
 export const Navbar: React.FC<NavbarProps> = ({ onOpenSearch, onScrollToSection }) => {
+  const navigate = useNavigate();
   const [activeLink, setActiveLink] = useState('Home');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const navItems = [
-    { label: 'Home', target: 'hero' },
-    { label: 'Explore', target: 'quick-explore' },
-    { label: 'Expeditions', target: 'latest-knowledge' },
-    { label: 'Research', target: 'featured-research' },
-    { label: 'Media', target: 'latest-knowledge' },
-    { label: 'Learn', target: 'science-stories' },
+    { label: 'Home', target: 'hero', path: '/' },
+    { label: 'Repository', target: 'repository', path: '/repository' },
+    { label: 'Expeditions', target: 'latest-knowledge', path: '/repository/reports' },
+    { label: 'Datasets', target: 'datasets', path: '/repository/datasets' },
+    { label: 'Publications', target: 'research', path: '/repository/publications' },
+    { label: 'Media', target: 'media', path: '/repository/media' },
   ];
 
-  const handleNavClick = (label: string, target: string) => {
+  const handleNavClick = (label: string, item: any) => {
     setActiveLink(label);
     setMobileMenuOpen(false);
-    onScrollToSection(target);
+    if (item.path) {
+      navigate(item.path);
+    } else {
+      onScrollToSection(item.target);
+    }
   };
+
 
   return (
     <nav className="navbar-sticky">
       <div className="navbar-container">
         {/* Brand Logo */}
-        <a href="#hero" className="nav-brand" onClick={(e) => { e.preventDefault(); handleNavClick('Home', 'hero'); }}>
+        <Link to="/" className="nav-brand" onClick={() => setActiveLink('Home')}>
           <div className="nav-logo-icon">
             <Compass size={22} strokeWidth={2.5} />
           </div>
@@ -37,25 +45,23 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenSearch, onScrollToSection 
             <span className="nav-title">POLAR EXPLORER</span>
             <span className="nav-subtitle">India's Polar Knowledge Portal</span>
           </div>
-        </a>
+        </Link>
 
         {/* Center Navigation Links */}
         <ul className="nav-links">
           {navItems.map((item) => (
             <li key={item.label}>
-              <a
-                href={`#${item.target}`}
+              <Link
+                to={item.path}
                 className={`nav-link ${activeLink === item.label ? 'active' : ''}`}
-                onClick={(e) => {
-                  e.preventDefault();
-                  handleNavClick(item.label, item.target);
-                }}
+                onClick={() => handleNavClick(item.label, item)}
               >
                 {item.label}
-              </a>
+              </Link>
             </li>
           ))}
         </ul>
+
 
         {/* Right Actions */}
         <div className="nav-actions">
