@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Search, ArrowRight, Database, BookOpen, Compass, Lightbulb, Share2 } from 'lucide-react';
+import { fetchRepositoryStats, type RepositoryStats } from '../services/api';
+
 
 interface HeroSectionProps {
   onSearchSubmit: (query: string) => void;
@@ -8,6 +10,11 @@ interface HeroSectionProps {
 
 export const HeroSection: React.FC<HeroSectionProps> = ({ onSearchSubmit, onOpenSearch }) => {
   const [searchQuery, setSearchQuery] = useState('');
+  const [stats, setStats] = useState<RepositoryStats | null>(null);
+
+  useEffect(() => {
+    fetchRepositoryStats().then(setStats).catch(console.warn);
+  }, []);
 
   const suggestedSearches = [
     'Antarctic Expeditions',
@@ -81,7 +88,22 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onSearchSubmit, onOpen
           ))}
         </div>
 
-        {/* Scientific Workflow Pipeline Strip (UX Principle #10) */}
+        {/* Dynamic Backend Stats Strip */}
+        {stats && (
+          <div style={{ marginTop: '16px', display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap', fontSize: '0.8rem', color: '#94A3B8', fontFamily: 'monospace' }}>
+            <span><strong style={{ color: '#38BDF8' }}>{stats.expeditions_count}</strong> Expeditions</span>
+            <span>•</span>
+            <span><strong style={{ color: '#2DD4BF' }}>{stats.reports_count}</strong> Scientific Reports</span>
+            <span>•</span>
+            <span><strong style={{ color: '#38BDF8' }}>{stats.datasets_count}</strong> Open Datasets</span>
+            <span>•</span>
+            <span><strong style={{ color: '#C084FC' }}>{stats.publications_count}</strong> Publications</span>
+            <span>•</span>
+            <span><strong style={{ color: '#FBBF24' }}>{stats.media_count}</strong> Media Records</span>
+          </div>
+        )}
+
+        {/* Scientific Workflow Pipeline Strip */}
         <div className="workflow-strip">
           <div className="workflow-step active">
             <Database size={14} />

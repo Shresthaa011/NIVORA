@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Compass, Database, BookOpen, Film, ArrowRight, Download, ExternalLink, Play } from 'lucide-react';
 import {
   fetchReports, fetchDatasets, fetchPublications, fetchMedia,
-  type RepositoryReport, type RepositoryDataset, type RepositoryPublication, type RepositoryMedia,
-  getFileDownloadUrl
+  type RepositoryReport, type RepositoryDataset, type RepositoryPublication, type RepositoryMedia
 } from '../services/api';
 import { EXPEDITIONS_DATA } from '../data/mockData';
 
@@ -13,8 +12,8 @@ interface LatestKnowledgeProps {
 }
 
 export const LatestKnowledgeSection: React.FC<LatestKnowledgeProps> = ({ onViewRecord }) => {
-  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<'Expeditions' | 'Datasets' | 'Publications' | 'Media'>('Expeditions');
+
 
   const [reports, setReports] = useState<RepositoryReport[]>([]);
   const [datasets, setDatasets] = useState<RepositoryDataset[]>([]);
@@ -213,7 +212,8 @@ export const LatestKnowledgeSection: React.FC<LatestKnowledgeProps> = ({ onViewR
         )}
       </div>
 
-      <div style={{ textCenter: 'center', marginTop: '32px', textAlign: 'center' }}>
+      <div style={{ marginTop: '32px', textAlign: 'center' }}>
+
         <Link
           to={`/repository/${activeTab.toLowerCase()}`}
           className="btn-primary-polar"
