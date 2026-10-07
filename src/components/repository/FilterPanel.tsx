@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Filter, RotateCcw, Check, ChevronDown, Sparkles } from 'lucide-react';
+import { Filter, RotateCcw, Check, ChevronDown } from 'lucide-react';
+
 
 export interface FilterState {
   keyword: string;

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { X, Download, Share2, Bookmark, Eye, MapPin, Calendar, User, Tag, FileText, Check, Network, ExternalLink } from 'lucide-react';
+import { X, Download, Share2, Bookmark, Eye, MapPin, Calendar, User, Tag, FileText, Check, Network } from 'lucide-react';
 import { MetadataBadge } from './MetadataBadge';
+
 import type { ResourceItem } from './ResourceCard';
 
 interface ResourceDetailModalProps {

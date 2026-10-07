@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { Search, ShieldCheck, Download, Sparkles, Filter, SlidersHorizontal } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Search, ShieldCheck, Download } from 'lucide-react';
 import { fetchRepositoryStats, type RepositoryStats } from '../services/api';
 
 import { CategoryTabs, type RepositoryCategory } from '../components/repository/CategoryTabs';
@@ -11,6 +11,7 @@ import { ResourceDetailModal } from '../components/repository/ResourceDetailModa
 import { AIDiscoverySection } from '../components/repository/AIDiscoverySection';
 import { Pagination } from '../components/repository/Pagination';
 import { EmptyState } from '../components/repository/EmptyState';
+
 
 // Sample Featured Resources (4 large cards)
 const FEATURED_KNOWLEDGE: FeaturedResource[] = [
@@ -173,8 +174,8 @@ const SAMPLE_RESOURCES: ResourceItem[] = [
 ];
 
 export const RepositoryLandingPage: React.FC = () => {
-  const navigate = useNavigate();
   const [stats, setStats] = useState<RepositoryStats>({
+
     reports_count: 15,
     datasets_count: 15,
     publications_count: 15,

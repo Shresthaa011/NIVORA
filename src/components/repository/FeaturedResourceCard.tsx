@@ -1,6 +1,7 @@
 import React from 'react';
-import { ArrowRight, Calendar, MapPin, User, Bookmark, ExternalLink } from 'lucide-react';
+import { ArrowRight, Calendar, MapPin, User, Bookmark } from 'lucide-react';
 import { MetadataBadge } from './MetadataBadge';
+
 
 export interface FeaturedResource {
   id: string;

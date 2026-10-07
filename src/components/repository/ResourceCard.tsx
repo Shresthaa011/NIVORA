@@ -1,6 +1,7 @@
 import React from 'react';
-import { Download, BookOpen, Bookmark, Calendar, MapPin, Tag } from 'lucide-react';
+import { Download, BookOpen, Bookmark, MapPin, Tag } from 'lucide-react';
 import { MetadataBadge } from './MetadataBadge';
+
 
 export interface ResourceItem {
   id: string;
