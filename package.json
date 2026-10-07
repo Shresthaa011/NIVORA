@@ -5,9 +5,13 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "backend": "python -m uvicorn backend.main:app --host 127.0.0.1 --port 8000 --reload",
+    "start": "concurrently \"npm run backend\" \"npm run dev\"",
+    "seed": "python backend/seed_data.py",
     "build": "tsc -b && vite build",
     "lint": "oxlint",
     "preview": "vite preview"
+
   },
   "dependencies": {
     "lucide-react": "^1.52.0",
@@ -20,6 +24,7 @@
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.7",
     "@vitejs/plugin-react": "^6.1.1",
+    "concurrently": "^10.0.5",
     "oxlint": "^1.81.0",
     "typescript": "~6.0.2",
     "vite": "^8.3.0"
