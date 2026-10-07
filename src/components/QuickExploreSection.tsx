@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Compass, Database, BookOpen, Image, MapPin, GraduationCap } from 'lucide-react';
 
 interface QuickExploreProps {
@@ -12,28 +13,28 @@ export const QuickExploreSection: React.FC<QuickExploreProps> = ({ onCardClick }
       title: 'Expeditions',
       desc: "Explore India's polar expeditions",
       icon: <Compass size={24} />,
-      target: 'latest-knowledge'
+      path: '/repository/reports'
     },
     {
       id: 'datasets',
       title: 'Datasets',
       desc: 'Discover scientific datasets',
       icon: <Database size={24} />,
-      target: 'latest-knowledge'
+      path: '/repository/datasets'
     },
     {
       id: 'publications',
       title: 'Publications',
       desc: 'Find research and publications',
       icon: <BookOpen size={24} />,
-      target: 'featured-research'
+      path: '/repository/publications'
     },
     {
       id: 'media',
       title: 'Media',
       desc: 'Explore photos and videos',
       icon: <Image size={24} />,
-      target: 'latest-knowledge'
+      path: '/repository/media'
     },
     {
       id: 'polar-map',
@@ -54,23 +55,34 @@ export const QuickExploreSection: React.FC<QuickExploreProps> = ({ onCardClick }
   return (
     <section id="quick-explore" className="section-container" style={{ paddingTop: '48px', paddingBottom: '48px' }}>
       <div className="quick-explore-grid">
-        {cards.map((card) => (
-          <div
-            key={card.id}
-            className="quick-card"
-            onClick={() => onCardClick(card.target)}
-            role="button"
-            tabIndex={0}
-          >
-            <div className="quick-card-icon">
-              {card.icon}
+        {cards.map((card) => {
+          if (card.path) {
+            return (
+              <Link key={card.id} to={card.path} className="quick-card" style={{ textDecoration: 'none' }}>
+                <div className="quick-card-icon">{card.icon}</div>
+                <div>
+                  <h3 className="quick-card-title">{card.title}</h3>
+                  <p className="quick-card-desc">{card.desc}</p>
+                </div>
+              </Link>
+            );
+          }
+          return (
+            <div
+              key={card.id}
+              className="quick-card"
+              onClick={() => onCardClick(card.target!)}
+              role="button"
+              tabIndex={0}
+            >
+              <div className="quick-card-icon">{card.icon}</div>
+              <div>
+                <h3 className="quick-card-title">{card.title}</h3>
+                <p className="quick-card-desc">{card.desc}</p>
+              </div>
             </div>
-            <div>
-              <h3 className="quick-card-title">{card.title}</h3>
-              <p className="quick-card-desc">{card.desc}</p>
-            </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </section>
   );
