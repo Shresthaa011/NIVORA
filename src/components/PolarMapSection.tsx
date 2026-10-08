@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
+import Globe from 'react-globe.gl';
 import { STATIONS_DATA } from '../data/mockData';
 import type { Station } from '../types/polar';
-import { MapPin, ArrowRight, Layers } from 'lucide-react';
+import { ArrowRight, Globe as GlobeIcon, RefreshCw } from 'lucide-react';
 
 interface PolarMapProps {
   onSelectStation: (station: Station) => void;
@@ -10,29 +11,107 @@ interface PolarMapProps {
 export const PolarMapSection: React.FC<PolarMapProps> = ({ onSelectStation }) => {
   const [activeFilter, setActiveFilter] = useState<'Antarctica' | 'Arctic' | 'All'>('Antarctica');
   const [selectedStation, setSelectedStation] = useState<Station>(STATIONS_DATA[0]);
+  const [dimensions, setDimensions] = useState<{ width: number; height: number }>({ width: 800, height: 520 });
 
-  const filteredStations = STATIONS_DATA.filter((st) => {
-    if (activeFilter === 'All') return true;
-    return st.region === activeFilter;
-  });
+  const containerRef = useRef<HTMLDivElement>(null);
+  const globeRef = useRef<any>(null);
+  const autoRotateTimerRef = useRef<any>(null);
 
-  // Relative visual pin positions for map container (Antarctica & Arctic representation)
-  const pinCoordinates: Record<string, { top: string; left: string }> = {
-    'st-bharati': { top: '58%', left: '74%' },
-    'st-maitri': { top: '38%', left: '46%' },
-    'st-dakshin-gangotri': { top: '34%', left: '48%' },
-    'st-himadri': { top: '25%', left: '52%' },
-    'st-indarc': { top: '30%', left: '50%' }
+  // Resize handler for responsive globe canvas
+  useEffect(() => {
+    const updateDimensions = () => {
+      if (containerRef.current) {
+        setDimensions({
+          width: containerRef.current.clientWidth || 800,
+          height: containerRef.current.clientHeight || 520
+        });
+      }
+    };
+
+    updateDimensions();
+    window.addEventListener('resize', updateDimensions);
+    const observer = new ResizeObserver(updateDimensions);
+    if (containerRef.current) observer.observe(containerRef.current);
+
+    return () => {
+      window.removeEventListener('resize', updateDimensions);
+      observer.disconnect();
+    };
+  }, []);
+
+  const filteredStations = useMemo(() => {
+    return STATIONS_DATA.filter((st) => {
+      if (activeFilter === 'All') return true;
+      return st.region === activeFilter;
+    });
+  }, [activeFilter]);
+
+  // Handle Tab Switch and view transition
+  useEffect(() => {
+    if (!globeRef.current) return;
+
+    // Enable auto-rotation
+    const controls = globeRef.current.controls();
+    if (controls) {
+      controls.autoRotate = true;
+      controls.autoRotateSpeed = 0.6;
+    }
+
+    if (activeFilter === 'Antarctica') {
+      globeRef.current.pointOfView({ lat: -75, lng: 45, altitude: 2.1 }, 1200);
+      const antStation = STATIONS_DATA.find(s => s.region === 'Antarctica');
+      if (antStation) setSelectedStation(antStation);
+    } else if (activeFilter === 'Arctic') {
+      globeRef.current.pointOfView({ lat: 75, lng: 18, altitude: 2.1 }, 1200);
+      const arcStation = STATIONS_DATA.find(s => s.region === 'Arctic');
+      if (arcStation) setSelectedStation(arcStation);
+    } else {
+      globeRef.current.pointOfView({ lat: 20, lng: 45, altitude: 2.8 }, 1200);
+    }
+  }, [activeFilter]);
+
+  // Pause auto-rotation on user interaction
+  const handleGlobeInteraction = () => {
+    if (globeRef.current && globeRef.current.controls()) {
+      globeRef.current.controls().autoRotate = false;
+
+      if (autoRotateTimerRef.current) clearTimeout(autoRotateTimerRef.current);
+      autoRotateTimerRef.current = setTimeout(() => {
+        if (globeRef.current && globeRef.current.controls()) {
+          globeRef.current.controls().autoRotate = true;
+        }
+      }, 5000);
+    }
   };
+
+  const handlePointClick = (station: any) => {
+    setSelectedStation(station);
+    handleGlobeInteraction();
+    if (globeRef.current) {
+      globeRef.current.pointOfView({ lat: station.lat, lng: station.lng, altitude: 1.8 }, 1000);
+    }
+  };
+
+  // Ring data for glowing pulse on markers
+  const ringsData = useMemo(() => {
+    return filteredStations.map(st => ({
+      ...st,
+      maxRadius: st.id === selectedStation?.id ? 4.5 : 2.5,
+      propagationSpeed: st.id === selectedStation?.id ? 2.5 : 1.5,
+      repeatPeriod: st.id === selectedStation?.id ? 1000 : 2000
+    }));
+  }, [filteredStations, selectedStation]);
 
   return (
     <section id="polar-world-map" className="map-section-bg">
       <div className="section-container" style={{ paddingTop: 0, paddingBottom: 0 }}>
         <div className="map-header">
-          <span className="section-tag" style={{ color: '#38BDF8' }}>INTERACTIVE GEOSPATIAL ATLAS</span>
+          <span className="section-tag" style={{ color: '#38BDF8', display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <GlobeIcon size={14} /> 3D INTERACTIVE GEOSPATIAL ATLAS
+          </span>
           <h2 className="section-title">Explore the Polar World</h2>
           <p className="section-subtitle">
-            Discover research stations, expeditions and scientific activity across the polar regions.
+            Interactive 3D Earth visualization of India's research stations, expeditions, and oceanographic observatories across Antarctica and the Arctic.
           </p>
         </div>
 
@@ -59,114 +138,118 @@ export const PolarMapSection: React.FC<PolarMapProps> = ({ onSelectStation }) =>
             </button>
           </div>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', fontSize: '0.8rem', color: '#94A3B8' }}>
-            <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '16px', fontSize: '0.8rem', color: '#94A3B8' }}>
+            <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
               <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#06B6D4' }}></span>
               Year-Round Station
             </span>
-            <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+            <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
               <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#E2E8F0' }}></span>
-              Heritage Base
+              Heritage / Seasonal Base
             </span>
-            <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-              <Layers size={14} /> MapLibre / Leaflet Ready
+            <span style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#38BDF8' }}>
+              <RefreshCw size={12} className="spin-slow" /> Interactive 3D Globe
             </span>
           </div>
         </div>
 
         {/* Map Viewport Container */}
-        <div className="map-viewport">
-          <div className="map-vector-canvas">
-            <div className="map-grid-lines"></div>
-
-            {/* Realistic Antarctica / Polar Continent Graphic Silhouette */}
-            <svg className="antarctica-svg-wrap" viewBox="0 0 800 600" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path
-                d="M400,120 Q520,100 620,190 T680,340 Q710,480 560,510 T320,530 Q180,480 140,360 T220,180 Z"
-                fill="url(#iceGradient)"
-                stroke="rgba(6, 182, 212, 0.3)"
-                strokeWidth="2"
-                strokeDasharray="4 4"
-              />
-              <path
-                d="M380,240 Q440,220 500,280 T480,380 T350,420 T280,320 Z"
-                fill="rgba(255, 255, 255, 0.05)"
-                stroke="rgba(255, 255, 255, 0.15)"
-                strokeWidth="1.5"
-              />
-              {/* Latitude Rings */}
-              <circle cx="400" cy="330" r="220" stroke="rgba(255, 255, 255, 0.06)" strokeWidth="1" />
-              <circle cx="400" cy="330" r="140" stroke="rgba(255, 255, 255, 0.06)" strokeWidth="1" />
-              <text x="410" y="125" fill="rgba(255,255,255,0.3)" fontSize="10" fontFamily="monospace">70°S</text>
-              <text x="410" y="205" fill="rgba(255,255,255,0.3)" fontSize="10" fontFamily="monospace">80°S</text>
-              <defs>
-                <linearGradient id="iceGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="rgba(2, 132, 199, 0.25)" />
-                  <stop offset="100%" stopColor="rgba(6, 182, 212, 0.08)" />
-                </linearGradient>
-              </defs>
-            </svg>
-
-            {/* Render Station Pin Markers */}
-            {filteredStations.map((station) => {
-              const pos = pinCoordinates[station.id] || { top: '50%', left: '50%' };
-              const isSelected = selectedStation?.id === station.id;
-
-              return (
-                <div
-                  key={station.id}
-                  className={`station-pin ${isSelected ? 'active' : ''}`}
-                  style={{ top: pos.top, left: pos.left }}
-                  onClick={() => setSelectedStation(station)}
-                  onMouseEnter={() => setSelectedStation(station)}
-                  title={`${station.name} (${station.coordinates})`}
-                >
-                  <div className="pin-pulse"></div>
-                  <div className="pin-core"></div>
-                  <div className="pin-label">
-                    <MapPin size={10} style={{ display: 'inline', marginRight: '3px' }} />
-                    {station.name}
-                  </div>
-                </div>
-              );
-            })}
-
-            {/* Interactive Info Card Popup Overlay */}
-            {selectedStation && (
-              <div className="map-popup-card">
-                <div className="popup-badge">{selectedStation.region} • EST. {selectedStation.established}</div>
-                <h3 className="popup-title">{selectedStation.name}</h3>
-                <div className="popup-coords">{selectedStation.coordinates}</div>
-
-                <p style={{ fontSize: '0.78rem', color: '#CBD5E1', marginBottom: '12px', lineHeight: '1.4' }}>
-                  {selectedStation.description.substring(0, 95)}...
-                </p>
-
-                <div className="popup-stats-grid">
-                  <div>
-                    <div className="popup-stat-val">{selectedStation.expeditionsCount}</div>
-                    <div className="popup-stat-lbl">Expeditions</div>
-                  </div>
-                  <div>
-                    <div className="popup-stat-val">{selectedStation.datasetsCount}</div>
-                    <div className="popup-stat-lbl">Datasets</div>
-                  </div>
-                  <div>
-                    <div className="popup-stat-val">{selectedStation.publicationsCount}</div>
-                    <div className="popup-stat-lbl">Publications</div>
-                  </div>
-                </div>
-
-                <button
-                  className="popup-btn"
-                  onClick={() => onSelectStation(selectedStation)}
-                >
-                  <span>Explore Station</span>
-                  <ArrowRight size={16} />
-                </button>
+        <div className="map-viewport" ref={containerRef}>
+          <Globe
+            ref={globeRef}
+            width={dimensions.width}
+            height={dimensions.height}
+            backgroundColor="rgba(0,0,0,0)"
+            globeImageUrl="//unpkg.com/three-globe/example/img/earth-dark.jpg"
+            bumpImageUrl="//unpkg.com/three-globe/example/img/earth-topology.png"
+            showAtmosphere={true}
+            atmosphereColor="#06B6D4"
+            atmosphereAltitude={0.18}
+            
+            /* Station Points Layer */
+            pointsData={filteredStations}
+            pointLat="lat"
+            pointLng="lng"
+            pointColor={(d: any) => d.id === selectedStation?.id ? '#38BDF8' : d.status.includes('Year-round') ? '#06B6D4' : '#E2E8F0'}
+            pointRadius={(d: any) => d.id === selectedStation?.id ? 0.75 : 0.5}
+            pointAltitude={(d: any) => d.id === selectedStation?.id ? 0.08 : 0.04}
+            pointLabel={(d: any) => `
+              <div style="background:#0A1E36; color:white; padding:8px 12px; border-radius:8px; font-family:Inter, sans-serif; border:1px solid #38BDF8; font-size:12px; box-shadow:0 6px 16px rgba(0,0,0,0.6)">
+                <div style="font-weight:700; color:#38BDF8; font-size:13px">${d.name}</div>
+                <div style="color:#94A3B8; font-size:10px; margin-top:2px">${d.location}</div>
+                <div style="color:#CBD5E1; font-size:10px; margin-top:4px; font-family:monospace">${d.coordinates}</div>
               </div>
-            )}
-          </div>
+            `}
+            onPointClick={handlePointClick}
+            
+            /* Pulsating Radar Rings Layer */
+            ringsData={ringsData}
+            ringLat="lat"
+            ringLng="lng"
+            ringColor={() => (t: number) => `rgba(56, 189, 248, ${1 - t})`}
+            ringMaxRadius="maxRadius"
+            ringPropagationSpeed="propagationSpeed"
+            ringRepeatPeriod="repeatPeriod"
+            
+            /* HTML Station Label Markers */
+            htmlElementsData={filteredStations}
+            htmlLat="lat"
+            htmlLng="lng"
+            htmlElement={(d: any) => {
+              const isSelected = d.id === selectedStation?.id;
+              const el = document.createElement('div');
+              el.className = `station-pin ${isSelected ? 'active' : ''}`;
+              el.style.pointerEvents = 'auto';
+              el.style.cursor = 'pointer';
+              el.innerHTML = `
+                <div class="pin-pulse"></div>
+                <div class="pin-core"></div>
+                <div class="pin-label">
+                  <span style="color:${isSelected ? '#38BDF8' : 'white'}">${d.name}</span>
+                </div>
+              `;
+              el.onclick = () => handlePointClick(d);
+              return el;
+            }}
+
+            onZoom={handleGlobeInteraction}
+          />
+
+          {/* Interactive Info Card Popup Overlay */}
+          {selectedStation && (
+            <div className="map-popup-card">
+              <div className="popup-badge">{selectedStation.region} • EST. {selectedStation.established}</div>
+              <h3 className="popup-title">{selectedStation.name}</h3>
+              <div className="popup-coords">{selectedStation.coordinates}</div>
+
+              <p style={{ fontSize: '0.78rem', color: '#CBD5E1', marginBottom: '12px', lineHeight: '1.4' }}>
+                {selectedStation.description}
+              </p>
+
+              <div className="popup-stats-grid">
+                <div>
+                  <div className="popup-stat-val">{selectedStation.expeditionsCount}</div>
+                  <div className="popup-stat-lbl">Expeditions</div>
+                </div>
+                <div>
+                  <div className="popup-stat-val">{selectedStation.datasetsCount}</div>
+                  <div className="popup-stat-lbl">Datasets</div>
+                </div>
+                <div>
+                  <div className="popup-stat-val">{selectedStation.publicationsCount}</div>
+                  <div className="popup-stat-lbl">Publications</div>
+                </div>
+              </div>
+
+              <button
+                className="popup-btn"
+                onClick={() => onSelectStation(selectedStation)}
+              >
+                <span>Explore Station</span>
+                <ArrowRight size={16} />
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </section>
