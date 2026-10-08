@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Search, ArrowRight, Database, BookOpen, Compass, Lightbulb, Share2 } from 'lucide-react';
-import { fetchRepositoryStats, type RepositoryStats } from '../services/api';
 
 
 interface HeroSectionProps {
@@ -10,11 +9,6 @@ interface HeroSectionProps {
 
 export const HeroSection: React.FC<HeroSectionProps> = ({ onSearchSubmit, onOpenSearch }) => {
   const [searchQuery, setSearchQuery] = useState('');
-  const [stats, setStats] = useState<RepositoryStats | null>(null);
-
-  useEffect(() => {
-    fetchRepositoryStats().then(setStats).catch(console.warn);
-  }, []);
 
   const suggestedSearches = [
     'Antarctic Expeditions',
@@ -61,7 +55,6 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onSearchSubmit, onOpen
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
-          <span className="kbd-shortcut">Ctrl K</span>
           <button type="submit" className="hero-search-btn">
             <span>Search</span>
             <ArrowRight size={18} />
@@ -82,21 +75,6 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onSearchSubmit, onOpen
             </button>
           ))}
         </div>
-
-        {/* Dynamic Backend Stats Strip */}
-        {stats && (
-          <div style={{ marginTop: '16px', display: 'flex', gap: '16px', justifyContent: 'flex-start', flexWrap: 'wrap', fontSize: '0.8rem', color: '#94A3B8', fontFamily: 'monospace' }}>
-            <span><strong style={{ color: '#38BDF8' }}>{stats.expeditions_count}</strong> Expeditions</span>
-            <span>•</span>
-            <span><strong style={{ color: '#2DD4BF' }}>{stats.reports_count}</strong> Scientific Reports</span>
-            <span>•</span>
-            <span><strong style={{ color: '#38BDF8' }}>{stats.datasets_count}</strong> Open Datasets</span>
-            <span>•</span>
-            <span><strong style={{ color: '#C084FC' }}>{stats.publications_count}</strong> Publications</span>
-            <span>•</span>
-            <span><strong style={{ color: '#FBBF24' }}>{stats.media_count}</strong> Media Records</span>
-          </div>
-        )}
 
         {/* Scientific Workflow Pipeline Strip */}
         <div className="workflow-strip">

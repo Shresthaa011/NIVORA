@@ -18,10 +18,6 @@ export const HeaderBanner: React.FC = () => {
           <span style={{ cursor: 'pointer', color: '#E2E8F0' }}>English</span>
           <span style={{ opacity: 0.3 }}>|</span>
           <span style={{ cursor: 'pointer', color: '#94A3B8' }}>हिन्दी</span>
-          <span style={{ opacity: 0.3 }}>|</span>
-          <span style={{ background: 'rgba(255,255,255,0.1)', padding: '2px 6px', borderRadius: '3px', fontSize: '0.7rem' }}>
-            SIH 2024 INSTITUTIONAL PORTAL
-          </span>
         </div>
       </div>
     </div>

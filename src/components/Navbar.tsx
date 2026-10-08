@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Compass, Search, Sparkles, User, Menu, X } from 'lucide-react';
+import { Compass, Sparkles, User, Menu, X } from 'lucide-react';
 
 
 interface NavbarProps {
-  onOpenSearch: () => void;
+  onOpenSearch?: () => void;
   onScrollToSection: (sectionId: string) => void;
 }
 
-export const Navbar: React.FC<NavbarProps> = ({ onOpenSearch, onScrollToSection }) => {
+export const Navbar: React.FC<NavbarProps> = ({ onScrollToSection }) => {
   const navigate = useNavigate();
   const [activeLink, setActiveLink] = useState('Home');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -65,15 +65,6 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenSearch, onScrollToSection 
 
         {/* Right Actions */}
         <div className="nav-actions">
-          <button
-            className="btn-nav-search"
-            onClick={onOpenSearch}
-            title="Search Platform (Ctrl + K)"
-          >
-            <Search size={16} />
-            <span className="kbd-shortcut" style={{ fontSize: '0.7rem' }}>⌘K</span>
-          </button>
-
           <button
             className="btn-ask-ai"
             onClick={() => onScrollToSection('ask-polar-ai')}
