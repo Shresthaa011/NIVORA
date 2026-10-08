@@ -290,8 +290,8 @@ h1, h2, h3, h4, h5, h6 {
   position: relative;
   z-index: 10;
   max-width: 880px;
-  margin: 0 auto;
-  text-align: center;
+  margin: 0;
+  text-align: left;
 }
 .hero-badge {
   display: inline-flex;
@@ -310,19 +310,20 @@ h1, h2, h3, h4, h5, h6 {
 }
 .hero-title {
   color: #FFFFFF;
-  font-size: 3.2rem;
-  font-weight: 800;
-  line-height: 1.15;
-  margin-bottom: 16px;
-  letter-spacing: -0.02em;
+  font-family: var(--font-mono);
+  font-size: 2.5rem;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 12px;
+  letter-spacing: -0.01em;
 }
 .hero-subtitle {
   color: #94A3B8;
-  font-size: 1.15rem;
+  font-size: 1rem;
   font-weight: 400;
-  max-width: 720px;
-  margin: 0 auto 36px;
-  line-height: 1.6;
+  max-width: 580px;
+  margin: 0 0 28px 0;
+  line-height: 1.55;
 }
 
 /* Prominent Hero Search Box */
@@ -337,7 +338,7 @@ h1, h2, h3, h4, h5, h6 {
   gap: 12px;
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
   max-width: 760px;
-  margin: 0 auto 20px;
+  margin: 0 0 20px 0;
   transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
 }
 .hero-search-container:focus-within {
@@ -391,7 +392,7 @@ h1, h2, h3, h4, h5, h6 {
 .suggested-searches {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 10px;
   flex-wrap: wrap;
   font-size: 0.85rem;
@@ -423,10 +424,11 @@ h1, h2, h3, h4, h5, h6 {
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 16px;
   flex-wrap: wrap;
 }
+
 .workflow-step {
   display: flex;
   align-items: center;

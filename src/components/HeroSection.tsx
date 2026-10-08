@@ -43,11 +43,6 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onSearchSubmit, onOpen
       <div className="hero-grid-pattern"></div>
 
       <div className="hero-content">
-        <div className="hero-badge">
-          <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#38BDF8', display: 'inline-block' }}></span>
-          OFFICIAL POLAR SCIENCE & DISSEMINATION PORTAL
-        </div>
-
         <h1 className="hero-title">
           Explore India's Polar Science
         </h1>
@@ -90,7 +85,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onSearchSubmit, onOpen
 
         {/* Dynamic Backend Stats Strip */}
         {stats && (
-          <div style={{ marginTop: '16px', display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap', fontSize: '0.8rem', color: '#94A3B8', fontFamily: 'monospace' }}>
+          <div style={{ marginTop: '16px', display: 'flex', gap: '16px', justifyContent: 'flex-start', flexWrap: 'wrap', fontSize: '0.8rem', color: '#94A3B8', fontFamily: 'monospace' }}>
             <span><strong style={{ color: '#38BDF8' }}>{stats.expeditions_count}</strong> Expeditions</span>
             <span>•</span>
             <span><strong style={{ color: '#2DD4BF' }}>{stats.reports_count}</strong> Scientific Reports</span>
