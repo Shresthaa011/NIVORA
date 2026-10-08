@@ -47,7 +47,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onSearchSubmit, onOpen
 
         {/* Prominent Search Bar */}
         <form onSubmit={handleFormSubmit} className="hero-search-container">
-          <Search size={22} className="hero-search-icon" />
+          <Search size={19} className="hero-search-icon" />
           <input
             type="text"
             className="hero-search-input"
@@ -57,7 +57,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onSearchSubmit, onOpen
           />
           <button type="submit" className="hero-search-btn">
             <span>Search</span>
-            <ArrowRight size={18} />
+            <ArrowRight size={16} />
           </button>
         </form>
 
@@ -79,27 +79,27 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onSearchSubmit, onOpen
         {/* Scientific Workflow Pipeline Strip */}
         <div className="workflow-strip">
           <div className="workflow-step active">
-            <Database size={14} />
+            <Database size={12} />
             <span>Scientific Data</span>
           </div>
           <span className="workflow-arrow">→</span>
           <div className="workflow-step active">
-            <BookOpen size={14} />
+            <BookOpen size={12} />
             <span>Knowledge</span>
           </div>
           <span className="workflow-arrow">→</span>
           <div className="workflow-step active">
-            <Compass size={14} />
+            <Compass size={12} />
             <span>Discovery</span>
           </div>
           <span className="workflow-arrow">→</span>
           <div className="workflow-step active">
-            <Lightbulb size={14} />
+            <Lightbulb size={12} />
             <span>Understanding</span>
           </div>
           <span className="workflow-arrow">→</span>
           <div className="workflow-step active">
-            <Share2 size={14} />
+            <Share2 size={12} />
             <span>Outreach</span>
           </div>
         </div>
