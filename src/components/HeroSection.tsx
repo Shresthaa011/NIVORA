@@ -33,6 +33,15 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onSearchSubmit, onOpen
 
   return (
     <section id="hero" className="hero-section">
+      <video
+        autoPlay
+        muted
+        loop
+        playsInline
+        className="hero-bg-video"
+      >
+        <source src="/hero-bg.mp4" type="video/mp4" />
+      </video>
       <div className="hero-bg-overlay"></div>
       <div className="hero-grid-pattern"></div>
 
