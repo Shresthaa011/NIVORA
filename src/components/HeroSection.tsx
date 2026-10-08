@@ -42,7 +42,6 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onSearchSubmit, onOpen
       >
         <source src="/hero-bg.mp4" type="video/mp4" />
       </video>
-      <div className="hero-grid-pattern"></div>
 
       <div className="hero-content">
         <h1 className="hero-title">
