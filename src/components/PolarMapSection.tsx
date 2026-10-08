@@ -160,11 +160,11 @@ export const PolarMapSection: React.FC<PolarMapProps> = ({ onSelectStation }) =>
             width={dimensions.width}
             height={dimensions.height}
             backgroundColor="rgba(0,0,0,0)"
-            globeImageUrl="//unpkg.com/three-globe/example/img/earth-dark.jpg"
+            globeImageUrl="//unpkg.com/three-globe/example/img/earth-blue-marble.jpg"
             bumpImageUrl="//unpkg.com/three-globe/example/img/earth-topology.png"
             showAtmosphere={true}
-            atmosphereColor="#06B6D4"
-            atmosphereAltitude={0.18}
+            atmosphereColor="#0284C7"
+            atmosphereAltitude={0.05}
             
             /* Station Points Layer */
             pointsData={filteredStations}
