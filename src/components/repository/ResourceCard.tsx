@@ -34,14 +34,14 @@ export const ResourceCard: React.FC<ResourceCardProps> = ({
   isBookmarked = false,
 }) => {
   return (
-    <div className="group rounded-xl bg-slate-900/70 border border-slate-800 hover:border-cyan-500/50 p-5 transition-all duration-300 flex flex-col justify-between hover:-translate-y-0.5 hover:shadow-lg">
+    <div className="group rounded-xl bg-[#0D2237] border border-slate-700/80 hover:border-cyan-500/70 p-5 transition-all duration-300 flex flex-col justify-between hover:-translate-y-0.5 hover:shadow-xl">
       <div>
         {/* Top Header */}
         <div className="flex items-center justify-between gap-2 mb-3">
           <MetadataBadge label={resource.type} variant={resource.badgeVariant || 'cyan'} />
           
           <div className="flex items-center gap-2">
-            <span className="text-[11px] font-mono text-slate-400 bg-slate-800 px-2 py-0.5 rounded">
+            <span className="text-[11px] font-mono text-cyan-300 bg-[#061524] px-2 py-0.5 rounded border border-cyan-950">
               {resource.year}
             </span>
             {onBookmarkToggle && (
@@ -51,7 +51,7 @@ export const ResourceCard: React.FC<ResourceCardProps> = ({
                 className={`p-1 rounded transition-colors ${
                   isBookmarked
                     ? 'text-amber-400 fill-amber-400'
-                    : 'text-slate-500 hover:text-slate-300'
+                    : 'text-slate-400 hover:text-white'
                 }`}
                 title={isBookmarked ? 'Bookmarked' : 'Bookmark resource'}
               >
@@ -70,25 +70,25 @@ export const ResourceCard: React.FC<ResourceCardProps> = ({
         </h3>
 
         {/* 2-line Description */}
-        <p className="text-xs text-slate-300 line-clamp-2 leading-relaxed mb-4">
+        <p className="text-xs text-slate-200 line-clamp-2 leading-relaxed mb-4">
           {resource.description}
         </p>
       </div>
 
       <div>
         {/* Metadata Grid */}
-        <div className="flex flex-wrap items-center gap-3 text-[11px] text-slate-400 bg-slate-950/60 p-2.5 rounded-lg border border-slate-800/80 mb-4">
-          <span className="flex items-center gap-1">
+        <div className="flex flex-wrap items-center gap-3 text-[11px] text-slate-300 bg-[#061524] p-2.5 rounded-lg border border-slate-800 mb-4">
+          <span className="flex items-center gap-1 font-medium">
             <MapPin className="w-3 h-3 text-cyan-400" /> {resource.region}
           </span>
           <span className="text-slate-600">•</span>
-          <span className="flex items-center gap-1 truncate">
+          <span className="flex items-center gap-1 truncate font-medium">
             <Tag className="w-3 h-3 text-teal-400" /> {resource.domain}
           </span>
         </div>
 
         {/* Actions */}
-        <div className="flex items-center justify-between pt-2 border-t border-slate-800/80">
+        <div className="flex items-center justify-between pt-3 border-t border-slate-800">
           <button
             type="button"
             onClick={() => onReadMore(resource)}
@@ -100,12 +100,13 @@ export const ResourceCard: React.FC<ResourceCardProps> = ({
           <button
             type="button"
             onClick={() => onDownload ? onDownload(resource) : onReadMore(resource)}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-medium transition-colors border border-slate-700"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-cyan-950 hover:bg-cyan-900 text-cyan-300 text-xs font-medium transition-colors border border-cyan-800 shadow-sm"
           >
-            <Download className="w-3.5 h-3.5 text-teal-400" /> Download
+            <Download className="w-3.5 h-3.5 text-cyan-400" /> Download
           </button>
         </div>
       </div>
     </div>
+
   );
 };

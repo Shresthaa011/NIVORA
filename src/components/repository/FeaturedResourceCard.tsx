@@ -31,9 +31,9 @@ export const FeaturedResourceCard: React.FC<FeaturedResourceCardProps> = ({
   isBookmarked = false,
 }) => {
   return (
-    <div className="group relative rounded-xl bg-slate-900/90 border border-slate-800 hover:border-cyan-500/60 overflow-hidden shadow-xl transition-all duration-300 flex flex-col justify-between hover:-translate-y-1">
+    <div className="group relative rounded-xl bg-[#0D2237] border border-cyan-900/60 hover:border-cyan-500/80 overflow-hidden shadow-xl transition-all duration-300 flex flex-col justify-between hover:-translate-y-1">
       {/* Top Banner / Image Header */}
-      <div className="relative h-44 bg-slate-950 overflow-hidden flex items-center justify-center">
+      <div className="relative h-44 bg-[#051321] overflow-hidden flex items-center justify-center">
         {resource.imageUrl ? (
           <img
             src={resource.imageUrl}
@@ -62,7 +62,7 @@ export const FeaturedResourceCard: React.FC<FeaturedResourceCardProps> = ({
                 </button>
               )}
             </div>
-            <div className="text-[10px] font-mono text-cyan-300/80">FEATURED SCIENTIFIC RECORD</div>
+            <div className="text-[10px] font-mono font-bold tracking-wider text-cyan-300">FEATURED SCIENTIFIC RECORD</div>
           </div>
         )}
 
@@ -79,14 +79,14 @@ export const FeaturedResourceCard: React.FC<FeaturedResourceCardProps> = ({
           <h3 className="text-base font-bold text-white group-hover:text-cyan-300 transition-colors line-clamp-2 leading-snug mb-2 font-serif">
             {resource.title}
           </h3>
-          <p className="text-xs text-slate-300 line-clamp-2 leading-relaxed mb-4">
+          <p className="text-xs text-slate-200 line-clamp-2 leading-relaxed mb-4">
             {resource.description}
           </p>
         </div>
 
         <div>
           {/* Metadata attributes */}
-          <div className="grid grid-cols-2 gap-2 text-[11px] text-slate-400 bg-slate-950/70 p-2.5 rounded-lg border border-slate-800/80 mb-4">
+          <div className="grid grid-cols-2 gap-2 text-[11px] text-slate-300 bg-[#061524] p-2.5 rounded-lg border border-cyan-950 mb-4">
             <div className="flex items-center gap-1.5 truncate">
               <User className="w-3 h-3 text-cyan-400 shrink-0" />
               <span className="truncate">{resource.author}</span>
@@ -100,7 +100,7 @@ export const FeaturedResourceCard: React.FC<FeaturedResourceCardProps> = ({
               <span>{resource.year}</span>
             </div>
             {resource.format && (
-              <div className="text-right font-mono font-semibold text-slate-300">
+              <div className="text-right font-mono font-semibold text-cyan-300">
                 {resource.format}
               </div>
             )}
@@ -109,7 +109,7 @@ export const FeaturedResourceCard: React.FC<FeaturedResourceCardProps> = ({
           <button
             type="button"
             onClick={() => onSelect(resource)}
-            className="w-full py-2 px-4 rounded-lg bg-cyan-950/90 hover:bg-cyan-900 border border-cyan-800 text-cyan-300 font-semibold text-xs transition-colors flex items-center justify-center gap-2 group-hover:border-cyan-600"
+            className="w-full py-2 px-4 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-semibold text-xs transition-colors flex items-center justify-center gap-2 shadow-md"
           >
             <span>View Resource</span>
             <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
@@ -117,5 +117,6 @@ export const FeaturedResourceCard: React.FC<FeaturedResourceCardProps> = ({
         </div>
       </div>
     </div>
+
   );
 };

@@ -288,19 +288,19 @@ export const RepositoryLandingPage: React.FC = () => {
   const suggestedKeywords = ['Antarctic Ice', 'Bharati CTD', 'Kongsfjorden', 'Himansh Glacier', 'Microbiology'];
 
   return (
-    <div className="repository-landing-page bg-[#071A2B] text-slate-100 min-h-screen pb-16 font-sans">
+    <div className="repository-landing-page bg-[#071321] text-slate-100 min-h-screen pb-16 font-sans">
       {/* 1. PAGE HEADER / HERO */}
-      <div className="relative border-b border-cyan-900/40 bg-gradient-to-b from-[#051321] via-[#071A2B] to-[#0A2540] py-14 px-4 sm:px-6 lg:px-8">
+      <div className="relative border-b border-cyan-900/60 bg-gradient-to-b from-[#091C30] via-[#0E2845] to-[#071321] py-14 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto text-center">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-cyan-950/80 border border-cyan-700/50 text-cyan-300 text-xs font-mono tracking-wider uppercase mb-4">
-            <ShieldCheck className="w-4 h-4 text-teal-400" />
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-cyan-950/90 border border-cyan-500/50 text-cyan-300 text-xs font-semibold tracking-wide uppercase mb-4 shadow">
+            <ShieldCheck className="w-4 h-4 text-cyan-400" />
             NCPOR / MoES Official Knowledge Repository
           </div>
 
-          <h1 className="text-4xl sm:text-5xl font-extrabold text-white tracking-tight font-serif mb-3">
+          <h1 className="text-4xl sm:text-5xl font-extrabold text-white tracking-tight font-serif mb-3 drop-shadow-sm">
             Polar Knowledge Repository
           </h1>
-          <p className="max-w-3xl mx-auto text-sm sm:text-base text-slate-300 leading-relaxed">
+          <p className="max-w-3xl mx-auto text-sm sm:text-base text-slate-200 leading-relaxed font-medium">
             Explore expedition reports, research publications, datasets, scientific articles and educational resources from India's polar research ecosystem.
           </p>
 
@@ -308,7 +308,7 @@ export const RepositoryLandingPage: React.FC = () => {
           <div className="max-w-3xl mx-auto mt-8">
             <form
               onSubmit={(e) => e.preventDefault()}
-              className="relative flex items-center bg-slate-900/90 rounded-xl border border-cyan-700/50 shadow-2xl p-2"
+              className="relative flex items-center bg-[#061423] rounded-xl border border-cyan-500/50 shadow-2xl p-2"
             >
               <Search className="w-5 h-5 text-cyan-400 absolute left-4" />
               <input
@@ -319,25 +319,25 @@ export const RepositoryLandingPage: React.FC = () => {
                   setSearchQuery(e.target.value);
                   setCurrentPage(1);
                 }}
-                className="w-full bg-transparent pl-12 pr-4 py-3 text-sm text-white placeholder-slate-400 focus:outline-none"
+                className="w-full bg-transparent pl-12 pr-4 py-3 text-sm text-white placeholder-slate-400 focus:outline-none font-medium"
               />
               <button
                 type="button"
-                className="bg-cyan-600 hover:bg-cyan-500 text-white font-semibold px-5 py-2.5 rounded-lg text-xs transition-colors flex items-center gap-1.5 shadow"
+                className="bg-cyan-600 hover:bg-cyan-500 text-white font-bold px-5 py-2.5 rounded-lg text-xs transition-colors flex items-center gap-1.5 shadow-md"
               >
                 <span>Search</span>
               </button>
             </form>
 
             {/* Suggested Search Pills */}
-            <div className="flex items-center justify-center gap-2 mt-3 flex-wrap text-xs text-slate-400">
-              <span className="font-mono text-[11px] text-slate-500">Suggested:</span>
+            <div className="flex items-center justify-center gap-2 mt-3 flex-wrap text-xs text-slate-300">
+              <span className="font-semibold text-[11px] text-slate-400">Suggested:</span>
               {suggestedKeywords.map((kw) => (
                 <button
                   key={kw}
                   type="button"
                   onClick={() => setSearchQuery(kw)}
-                  className="px-2.5 py-0.5 rounded-full bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-800 transition-colors"
+                  className="px-2.5 py-0.5 rounded-full bg-[#0C243B] hover:bg-cyan-900/60 text-slate-200 border border-cyan-900/60 transition-colors font-medium"
                 >
                   {kw}
                 </button>
@@ -346,30 +346,31 @@ export const RepositoryLandingPage: React.FC = () => {
           </div>
 
           {/* Repository Statistics bar */}
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-3 max-w-4xl mx-auto mt-10 p-4 rounded-xl bg-slate-900/80 border border-slate-800 shadow-xl">
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-3 max-w-4xl mx-auto mt-10 p-4 rounded-xl bg-[#0D243B] border border-cyan-900/60 shadow-xl">
             <div className="p-2.5 text-center border-r border-slate-800 last:border-0">
-              <span className="block text-2xl font-extrabold text-cyan-400 font-mono">{stats.reports_count}</span>
-              <span className="text-[11px] text-slate-400 font-medium">Expedition Reports</span>
+              <span className="block text-2xl font-extrabold text-cyan-300 font-mono">{stats.reports_count}</span>
+              <span className="text-[11px] text-slate-300 font-semibold">Expedition Reports</span>
             </div>
             <div className="p-2.5 text-center border-r border-slate-800 last:border-0">
-              <span className="block text-2xl font-extrabold text-teal-400 font-mono">{stats.datasets_count}</span>
-              <span className="text-[11px] text-slate-400 font-medium">Datasets</span>
+              <span className="block text-2xl font-extrabold text-teal-300 font-mono">{stats.datasets_count}</span>
+              <span className="text-[11px] text-slate-300 font-semibold">Datasets</span>
             </div>
             <div className="p-2.5 text-center border-r border-slate-800 last:border-0">
-              <span className="block text-2xl font-extrabold text-sky-400 font-mono">{stats.publications_count}</span>
-              <span className="text-[11px] text-slate-400 font-medium">Publications</span>
+              <span className="block text-2xl font-extrabold text-sky-300 font-mono">{stats.publications_count}</span>
+              <span className="text-[11px] text-slate-300 font-semibold">Publications</span>
             </div>
             <div className="p-2.5 text-center border-r border-slate-800 last:border-0">
-              <span className="block text-2xl font-extrabold text-indigo-400 font-mono">{stats.media_count}</span>
-              <span className="text-[11px] text-slate-400 font-medium">Media Records</span>
+              <span className="block text-2xl font-extrabold text-purple-300 font-mono">{stats.media_count}</span>
+              <span className="text-[11px] text-slate-300 font-semibold">Media Records</span>
             </div>
             <div className="p-2.5 text-center col-span-2 md:col-span-1">
-              <span className="block text-2xl font-extrabold text-emerald-400 font-mono">{stats.expeditions_count}</span>
-              <span className="text-[11px] text-slate-400 font-medium">Expeditions</span>
+              <span className="block text-2xl font-extrabold text-emerald-300 font-mono">{stats.expeditions_count}</span>
+              <span className="text-[11px] text-slate-300 font-semibold">Expeditions</span>
             </div>
           </div>
         </div>
       </div>
+
 
       {/* Main Container */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-10 space-y-10">

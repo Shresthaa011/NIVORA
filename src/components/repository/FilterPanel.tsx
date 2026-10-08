@@ -48,9 +48,9 @@ export const FilterPanel: React.FC<FilterPanelProps> = ({
   };
 
   return (
-    <div className="bg-slate-900/80 rounded-xl border border-slate-800 p-4 sm:p-5 shadow-lg">
-      <div className="flex items-center justify-between mb-4 pb-3 border-b border-slate-800">
-        <div className="flex items-center gap-2 text-white font-semibold text-sm">
+    <div className="bg-[#0D2237] rounded-xl border border-slate-700/80 p-4 sm:p-5 shadow-xl">
+      <div className="flex items-center justify-between mb-4 pb-3 border-b border-slate-700/80">
+        <div className="flex items-center gap-2 text-white font-bold text-sm">
           <Filter className="w-4 h-4 text-cyan-400" />
           <span>Advanced Knowledge Filters</span>
         </div>
@@ -68,11 +68,11 @@ export const FilterPanel: React.FC<FilterPanelProps> = ({
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-xs">
           {/* Region */}
           <div>
-            <label className="block text-slate-400 font-medium mb-1.5">Region / Geographic Area</label>
+            <label className="block text-slate-200 font-semibold mb-1.5">Region / Geographic Area</label>
             <select
               value={localFilters.region}
               onChange={(e) => handleSelectChange('region', e.target.value)}
-              className="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-cyan-500"
+              className="w-full bg-[#061524] border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-cyan-400 font-medium"
             >
               <option value="All">All Regions</option>
               <option value="Antarctic">Antarctic Region</option>
@@ -84,11 +84,11 @@ export const FilterPanel: React.FC<FilterPanelProps> = ({
 
           {/* Content Type */}
           <div>
-            <label className="block text-slate-400 font-medium mb-1.5">Content Type</label>
+            <label className="block text-slate-200 font-semibold mb-1.5">Content Type</label>
             <select
               value={localFilters.contentType}
               onChange={(e) => handleSelectChange('contentType', e.target.value)}
-              className="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-cyan-500"
+              className="w-full bg-[#061524] border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-cyan-400 font-medium"
             >
               <option value="All">All Content Types</option>
               <option value="Report">Expedition Report</option>
@@ -102,11 +102,11 @@ export const FilterPanel: React.FC<FilterPanelProps> = ({
 
           {/* Year */}
           <div>
-            <label className="block text-slate-400 font-medium mb-1.5">Publication / Mission Year</label>
+            <label className="block text-slate-200 font-semibold mb-1.5">Publication / Mission Year</label>
             <select
               value={localFilters.year}
               onChange={(e) => handleSelectChange('year', e.target.value)}
-              className="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-cyan-500"
+              className="w-full bg-[#061524] border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-cyan-400 font-medium"
             >
               <option value="All">All Years</option>
               <option value="2026">2026</option>
@@ -119,11 +119,11 @@ export const FilterPanel: React.FC<FilterPanelProps> = ({
 
           {/* Research Domain */}
           <div>
-            <label className="block text-slate-400 font-medium mb-1.5">Research Domain</label>
+            <label className="block text-slate-200 font-semibold mb-1.5">Research Domain</label>
             <select
               value={localFilters.domain}
               onChange={(e) => handleSelectChange('domain', e.target.value)}
-              className="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-cyan-500"
+              className="w-full bg-[#061524] border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-cyan-400 font-medium"
             >
               <option value="All">All Research Domains</option>
               <option value="Climate Change">Climate Change & Warming</option>
@@ -138,11 +138,11 @@ export const FilterPanel: React.FC<FilterPanelProps> = ({
 
           {/* Expedition */}
           <div>
-            <label className="block text-slate-400 font-medium mb-1.5">Indian Scientific Expedition</label>
+            <label className="block text-slate-200 font-semibold mb-1.5">Indian Scientific Expedition</label>
             <select
               value={localFilters.expedition}
               onChange={(e) => handleSelectChange('expedition', e.target.value)}
-              className="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-cyan-500"
+              className="w-full bg-[#061524] border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-cyan-400 font-medium"
             >
               <option value="All">All Expeditions</option>
               <option value="ISEA-42">42nd ISEA (2023)</option>
@@ -152,6 +152,7 @@ export const FilterPanel: React.FC<FilterPanelProps> = ({
               <option value="Himalaya-2023">Himansh Mission 2023</option>
             </select>
           </div>
+
 
           {/* Action Buttons */}
           <div className="flex items-end gap-2 col-span-1 sm:col-span-2 lg:col-span-1">

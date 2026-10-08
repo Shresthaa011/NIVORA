@@ -46,8 +46,8 @@ export const CategoryTabs: React.FC<CategoryTabsProps> = ({
               onClick={() => onSelectCategory(cat.id)}
               className={`flex items-center gap-2 px-4 py-2.5 rounded-lg font-medium text-xs transition-all duration-200 border ${
                 isActive
-                  ? 'bg-cyan-600 text-white border-cyan-500 shadow-md shadow-cyan-900/30 font-semibold'
-                  : 'bg-slate-900/80 text-slate-300 border-slate-800 hover:bg-slate-800 hover:text-white'
+                  ? 'bg-cyan-600 text-white border-cyan-400 shadow-md shadow-cyan-600/30 font-bold'
+                  : 'bg-[#0D2237] text-slate-200 border-slate-700/80 hover:bg-[#143250] hover:text-white'
               }`}
             >
               <span className={isActive ? 'text-white' : 'text-cyan-400'}>{cat.icon}</span>
@@ -55,7 +55,7 @@ export const CategoryTabs: React.FC<CategoryTabsProps> = ({
               {count !== null && count !== undefined && (
                 <span
                   className={`text-[10px] font-mono px-1.5 py-0.5 rounded ${
-                    isActive ? 'bg-cyan-700 text-white' : 'bg-slate-800 text-slate-400'
+                    isActive ? 'bg-cyan-700 text-white' : 'bg-[#061524] text-cyan-300'
                   }`}
                 >
                   {count}
