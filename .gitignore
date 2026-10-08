@@ -30,3 +30,6 @@ __pycache__/
 .pytest_cache/
 backend/polar_explorer.db
 backend/storage/uploads/
+polar_explorer.db
+storage/
+*.zip

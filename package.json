@@ -9,6 +9,7 @@
     "start": "concurrently \"npm run backend\" \"npm run dev\"",
     "seed": "python backend/seed_data.py",
     "build": "tsc -b && vite build",
+    "prod": "npm run build && python -m uvicorn backend.main:app --host 127.0.0.1 --port 8000",
     "lint": "oxlint",
     "preview": "vite preview"
   },

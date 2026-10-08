@@ -3,7 +3,7 @@
  * Handles API calls to FastAPI backend with mock data fallback.
  */
 
-const API_BASE_URL = 'http://localhost:8000/api';
+const API_BASE_URL = '/api';
 
 export interface RepositoryStats {
   reports_count: number;
